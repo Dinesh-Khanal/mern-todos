@@ -1,11 +1,9 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-console.log("environment    ", process.env.ENVIRONMENT);
-console.log("PORT    ", process.env.PORT);
-console.log("MONGO_CONNECTION_STRING    ", process.env.MONGO_CONNECTION_STRING);
-if (process.env.ENVIRONMENT !== "production") {
+if (process.env.ENVIRONMENT !== "PRODUCTION") {
   require("dotenv").config();
 }
 
@@ -36,6 +34,9 @@ app.delete("/api/task/:id", (req, res) => {
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../ui/build/index.html"));
+});
+mongoose.connect(process.env.MONGO_CONNECTION_STRING).then((data) => {
+  console.log(`MongoDb is connected to host ${data.connection.host}`);
 });
 app.listen(port, () => {
   console.log(`Server listening on the port  ${port}`);
