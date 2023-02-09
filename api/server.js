@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 if (process.env.ENVIRONMENT !== "PRODUCTION") {
   require("dotenv").config();
@@ -12,6 +13,7 @@ const taskController = require("./controller/task.controller");
 const app = express();
 const port = process.env.PORT || 3080;
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, "../ui/build")));
 app.use(bodyParser.json());
 
